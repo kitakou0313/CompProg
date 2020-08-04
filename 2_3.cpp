@@ -14,6 +14,40 @@ ll dp[10001][1001] = {0};
 
 int main()
 {
+    int N, M;
+
+    int t[100][100] = {0};
+
+    cin >> N >> M;
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < M; j++)
+        {
+            cin >> t[i][j];
+        }
+    }
+
+    ll ans = 0;
+
+    for (int i = 0; i < M; i++)
+    {
+        for (int j = 0; j < M; j++)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+            ll tmpAns = 0;
+
+            for (int k = 0; k < N; k++)
+            {
+                tmpAns += max(t[k][i], t[k][j]);
+            }
+            ans = max(ans, tmpAns);
+        }
+    }
+
+    cout << ans << endl;
 }
 
 /*Syakutori
