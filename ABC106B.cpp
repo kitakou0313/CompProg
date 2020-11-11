@@ -14,35 +14,35 @@ ll dp[10001][1001] = {0};
 
 int main()
 {
-    int N;
-    int ansNum = 0;
-    cin >> N;
-    for (int i = 0; i <= N; i++)
+  int N;
+  int ansNum = 0;
+  cin >> N;
+  for (int i = 0; i <= N; i++)
+  {
+    if (i % 2 == 1)
     {
-        if (i % 2 == 1)
+      int yakuSuNum = 0;
+      for (int j = 1; j <= N; j++)
+      {
+        if (i % j == 0)
         {
-            int yakuSuNum = 0;
-            for (int j = 1; j <= N; j++)
-            {
-                if (i % j == 0)
-                {
-                    yakuSuNum++;
-                }
-            }
-            if (yakuSuNum == 8)
-                ansNum++;
+          yakuSuNum++;
         }
+      }
+      if (yakuSuNum == 8)
+        ansNum++;
     }
+  }
 
-    for (int i = 0; i < N; i++)
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = 0; j < K; j++)
     {
-        for (int j = 0; j < K; j++)
-        {
-        }
     }
+  }
 
-    cout << ansNum << endl;
-    return 0;
+  cout << ansNum << endl;
+  return 0;
 }
 
 /*Syakutori
