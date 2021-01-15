@@ -8,7 +8,7 @@ def convertBitToBuildings(combinationBit, buildings):
 
     for n in range(N):
         if getNthBit(combinationBit, n) == 1:
-            res.append(buildings[n + 1])
+            res.append(n + 1)
 
     return res
 
@@ -16,12 +16,18 @@ def convertBitToBuildings(combinationBit, buildings):
 def calCostWithBuildingsFromBit(buildings, buildingsFromCombBit):
     minHeight = buildings[0]
     ans = 0
-    for i in range(len(buildingsFromCombBit)):
-        if buildingsFromCombBit[i] <= minHeight + 1:
-            ans += (minHeight + 1) - buildingsFromCombBit[i]
-            minHeight += 1
+
+    for buildingInd in range(len(buildings)):
+        if buildingInd in set(buildingsFromCombBit):
+            if buildings[buildingInd] <= minHeight + 1:
+                ans += (minHeight + 1) - buildings[buildingInd]
+                minHeight += 1
+            else:
+                minHeight = buildings[buildingInd]
         else:
-            minHeight = buildingsFromCombBit[i]
+            if buildings[buildingInd] > minHeight:
+                minHeight = buildings[buildingInd]
+
     return ans
 
 
@@ -37,6 +43,6 @@ if __name__ == "__main__":
 
         minCost = min(minCost, calCostWithBuildingsFromBit(
             buildings, buildingsFromCombBit))
-        print(type(minCost))
+        
 
     print(minCost)
