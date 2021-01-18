@@ -21,7 +21,7 @@ def isNotExistingDuplication(queenPos):
                 if queenPos[x + yInd] == queenPos[x]+yInd:
                     return False
 
-            elif queenPos[x]-yInd >= 0:
+            if queenPos[x]-yInd >= 0:
                 if queenPos[x + yInd] == queenPos[x]-yInd:
                     return False
 
@@ -58,4 +58,5 @@ if __name__ == "__main__":
 
         if isNotExistingDuplication(queenPos):
             renderQueenPos(queenPos)
-            break
+            
+            
