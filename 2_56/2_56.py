@@ -8,11 +8,9 @@ def calMinLengthFromR(r, edges, V):
 
     for goalNode in range(V):
         minLengthList = [float("INF") for _ in range(V)]
-        visited = set()
         minHeap = []
 
         minLengthList[r] = 0
-        visited.add(r)
         heapq.heappush(minHeap, (0, r))
 
         while len(minHeap) != 0:
@@ -22,7 +20,7 @@ def calMinLengthFromR(r, edges, V):
                 continue
 
             for nxtNode in range(V):
-                if edges[node][nxtNode] != 0:
+                if edges[node][nxtNode] != -1:
                     if minLengthList[nxtNode] > edges[node][nxtNode] + minLengthList[node]:
                         minLengthList[nxtNode] = edges[node][nxtNode] + \
                             minLengthList[node]
@@ -38,7 +36,7 @@ if __name__ == "__main__":
     V, E, r = map(int, input().split())
 
     # edges[from][to] = omomi
-    edges = [[0 for _ in range(V)] for _ in range(V)]
+    edges = [[-1 for _ in range(V)] for _ in range(V)]
     for _ in range(E):
         s, t, d = map(int, input().split())
         edges[s][t] = d
