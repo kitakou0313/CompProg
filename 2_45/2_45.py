@@ -20,16 +20,14 @@ def calAbleMinLeastSquaresError(inputedSignals, codeBook):
         for m in range(M):
             dp[n][m] = SignalAndSquaresErr(float("inf"), float("inf"))
             for m_n_1 in range(M):
-                signalOfmAndM_n_1 = dp[n-1][m_n_1].signal + codeBook[m]
-
-                if signalOfmAndM_n_1 < 0:
-                    signalOfmAndM_n_1 = 0
-                if signalOfmAndM_n_1 > 255:
-                    signalOfmAndM_n_1 = 255
-
-                squaresErrOfmAndM_n_1 = (inputedSignals[n] - signalOfmAndM_n_1)**2 + dp[n-1][m_n_1].squaresErr
+                signalOfmAndM_n_1 = min(
+                    max(dp[n-1][m_n_1].signal + codeBook[m], 0), 255)
+                    
+                squaresErrOfmAndM_n_1 = (
+                    inputedSignals[n] - signalOfmAndM_n_1)**2 + dp[n-1][m_n_1].squaresErr
                 if dp[n][m].squaresErr > squaresErrOfmAndM_n_1:
-                    dp[n][m] = SignalAndSquaresErr(signalOfmAndM_n_1, squaresErrOfmAndM_n_1)
+                    dp[n][m] = SignalAndSquaresErr(
+                        signalOfmAndM_n_1, squaresErrOfmAndM_n_1)
 
     ans = float("inf")
 
