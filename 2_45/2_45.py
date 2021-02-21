@@ -1,38 +1,35 @@
-# dp[i][j]...i番目の信号に対してj番目の差分を適用した場合の信号,iの信号までの最小二乗誤差
-# 最大20000*16*16で十分間に合う
-
-class SignalAndSquaresErr():
-    def __init__(self, signel, squaresErr):
-        self.signal = signel
-        self.squaresErr = squaresErr
-
+# dp[i][j]...i番目の信号に対してj（0~255）で復号した場合の二乗誤差
+# ダメでした…
+# 最大20000*256*16で十分間に合う
 
 def calAbleMinLeastSquaresError(inputedSignals, codeBook):
     N = len(inputedSignals)
     M = len(codeBook)
 
-    dp = [[0 for _ in range(M)] for _ in range(N)]
+    #INFは実現できない信号
+    dp = [[float("inf") for _ in range(256)] for _ in range(N)]
 
-    for m in range(M):
-        dp[0][m] = SignalAndSquaresErr(128, 0)
+
+    dp[0][128] = 0
 
     for n in range(1, N):
         for m in range(M):
-            dp[n][m] = SignalAndSquaresErr(float("inf"), float("inf"))
-            for m_n_1 in range(M):
-                signalOfmAndM_n_1 = min(
-                    max(dp[n-1][m_n_1].signal + codeBook[m], 0), 255)
+            for preSignal in range(256):
+                if dp[n-1][preSignal] == float("inf"):
+                    continue
+
+                signalOfMWithPreSig = min(
+                    max(preSignal + codeBook[m], 0), 255)
                     
-                squaresErrOfmAndM_n_1 = (
-                    inputedSignals[n] - signalOfmAndM_n_1)**2 + dp[n-1][m_n_1].squaresErr
-                if dp[n][m].squaresErr > squaresErrOfmAndM_n_1:
-                    dp[n][m] = SignalAndSquaresErr(
-                        signalOfmAndM_n_1, squaresErrOfmAndM_n_1)
+                squaresErrOfMAndPreSig = (
+                    inputedSignals[n] - signalOfMWithPreSig)**2 + dp[n-1][preSignal]
+
+                dp[n][signalOfMWithPreSig] = min(dp[n][signalOfMWithPreSig], squaresErrOfMAndPreSig)
 
     ans = float("inf")
 
-    for m in range(M):
-        ans = min(ans, dp[N-1][m].squaresErr)
+    for m in range(256):
+        ans = min(ans, dp[N-1][m])
 
     return ans
 
