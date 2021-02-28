@@ -19,8 +19,8 @@ if __name__ == "__main__":
             s, t, cost = inputArray[1:]
             s = s-1
             t = t-1
-            edges[s][t] = cost
-            edges[t][s] = cost
+            edges[s][t] = min(edges[s][t], cost)
+            edges[t][s] = min(edges[t][s], cost)
             doWF(edges)
         else:
             s, t = inputArray[1:]
